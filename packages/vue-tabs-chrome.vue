@@ -25,23 +25,22 @@
 
 <script>
 import Draggabilly from 'draggabilly'
-import { setTimeout, clearTimeout } from 'timers';
 
 const getInstanceAt = (tabs, tab, tabWidth, tabKey, gap) => {
   let halfWidth = (tabWidth - gap) / 2
   let x = tab._instance.position.x
   for (let i = 0; i < tabs.length; i++) {
-    let targetX = tabs[i]._x
+    let targetX = tabs[i]._x - 0.5
     if (tab[tabKey] === tabs[i][tabKey]) continue
     // in range
-    if (targetX < x && x < targetX + halfWidth / 2) {
+    if (targetX <= x && x < targetX + halfWidth / 2) {
       // before range
       return {
         direction: 'left',
         instance: tabs[i]._instance,
         targetTab: tabs[i]
       }
-    } else if (targetX + halfWidth / 2 < x && x < targetX + halfWidth) {
+    } else if (targetX + halfWidth / 2 <= x && x < targetX + halfWidth) {
       // after range
       return {
         direction: 'right',
@@ -74,7 +73,7 @@ export default {
     },
     minWidth: {
       type: Number,
-      default: 20
+      default: 40
     },
     maxWidth: {
       type: Number,
@@ -83,22 +82,12 @@ export default {
   },
   data () {
     return {
-      gap: 7
-    }
-  },
-  computed: {
-    tabWidth () {
-      let { tabs, maxWidth, minWidth } = this
-      let $content = this.$refs.content
-      if (!$content) return Math.max(maxWidth, minWidth)
-      let contentWidth = $content.clientWidth
-      let width = contentWidth / tabs.length
-      if (width > maxWidth) width = maxWidth
-      if (width < minWidth) width = minWidth
-      return width
+      gap: 7,
+      tabWidth: null
     }
   },
   mounted () {
+    this.calcTabWidth()
     window.addEventListener('resize', this.handleResize)
     this.setup()
   },
@@ -106,6 +95,17 @@ export default {
     window.removeEventListener('resize', this.handleResize)
   },
   methods: {
+    calcTabWidth () {
+      let { tabs, maxWidth, minWidth, gap } = this
+      let $content = this.$refs.content
+      if (!$content) return Math.max(maxWidth, minWidth)
+      let contentWidth = $content.clientWidth - gap * 2
+      let width = contentWidth / tabs.length
+      width += gap * 2
+      if (width > maxWidth) width = maxWidth
+      if (width < minWidth) width = minWidth
+      this.tabWidth = width
+    },
     setup () {
       let { tabs } = this
       tabs.forEach((tab, i) => {
@@ -134,6 +134,7 @@ export default {
       })
     },
     doLayout () {
+      this.calcTabWidth()
       let { tabWidth, tabs, gap } = this
       tabs.forEach((tab, i) => {
         let instance = tab._instance
@@ -146,7 +147,7 @@ export default {
       this.timer && clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         this.doLayout()
-      }, 1000)
+      }, 100)
     },
     handlePointerDown (e, tab, i) {
       let { tabKey } = this
@@ -188,7 +189,7 @@ export default {
       }, 50)
       setTimeout(() => {
         _instance.element.classList.remove('move')
-      }, 100)
+      }, 200)
     },
     handleDraEnd (e, tab) {
       let _instance = tab._instance
@@ -199,7 +200,7 @@ export default {
       }, 50)
       setTimeout(() => {
         _instance.element.classList.remove('move')
-      }, 100)
+      }, 200)
     }
   }
 }
@@ -210,12 +211,16 @@ export default {
   @bg: #dee1e6;
   @gap: 7px;
   @divider: #8a8e92;
+  @speed: 150ms;
+
+  padding-top: 10px;
   background-color: @bg;
   position: relative;
 
   .tabs-content {
-    height: 36px;
+    height: 34px;
     position: relative;
+    overflow: hidden;
   }
   /* divider */
   .tabs-divider {
@@ -234,12 +239,17 @@ export default {
     align-items: center;
     user-select: none;
     box-sizing: border-box;
-    transition: width 300ms;
+    transition: width @speed;
     position: absolute;
     &:hover {
+      z-index: 2;
+      .tabs-background-header-content,
+      .tabs-background-footer {
+        background-color: #f2f3f5;
+      }
     }
     &.move {
-      transition: 300ms;
+      transition: @speed;
     }
     &.active {
       z-index: 2;
@@ -268,12 +278,13 @@ export default {
       padding: 0 @gap;
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
-      transition: 300ms;
+      transition: @speed;
       z-index: 1;
       display: flex;
       align-items: center;
       position: absolute;
       box-sizing: border-box;
+      overflow: hidden;
     }
     /* background */
     .tabs-background {
