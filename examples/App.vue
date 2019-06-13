@@ -10,23 +10,17 @@ export default {
   name: 'app',
   data () {
     return {
-      tab: 'tab3',
+      tab: 'google',
       tabs: [
         {
-          label: 'tab1',
-          key: 'tab1'
+          label: 'google',
+          key: 'google',
+          favico: require('./assets/google.jpg')
         },
         {
-          label: 'tab2',
-          key: 'tab2'
-        },
-        {
-          label: 'tab3',
-          key: 'tab3'
-        },
-        {
-          label: 'tab4',
-          key: 'tab4'
+          label: 'facebook',
+          key: 'facebook',
+          favico: require('./assets/fb.jpg')
         }
       ]
     }

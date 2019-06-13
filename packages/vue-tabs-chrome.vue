@@ -23,6 +23,9 @@
           svg.tabs-close-icon(v-else width="16" height="16" stroke="#595959")
             path(d="M 4 4 L 12 12 M 12 4 L 4 12")
         .tabs-main(:title="tab.label")
+          span.tabs-favicon(v-if="$slots['favico'] || tab.favico")
+            slot(v-if="$slots['favico']" name="favico" :tab="tab" :index="i")
+            img(v-else-if="tab.favico" :src="tab.favico")
           span.tabs-label {{ tab.label }}
 </template>
 
@@ -33,7 +36,7 @@ const getInstanceAt = (tabs, tab, tabWidth, tabKey, gap) => {
   let halfWidth = (tabWidth - gap) / 2
   let x = tab._instance.position.x
   for (let i = 0; i < tabs.length; i++) {
-    let targetX = tabs[i]._x - 0.5
+    let targetX = tabs[i]._x - 1
     if (tab[tabKey] === tabs[i][tabKey]) continue
     // in range
     if (targetX <= x && x < targetX + halfWidth / 2) {
@@ -322,6 +325,17 @@ export default {
         stroke: #000;
         background-color: #e8eaed;
       }
+    }
+    .tabs-favicon {
+      width: 16px;
+      height: 16px;
+      margin-left: @gap;
+      img {
+        width: 100%;
+      }
+    }
+    .tabs-label {
+      margin-left: @gap;
     }
     /* background */
     .tabs-background {
