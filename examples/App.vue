@@ -38,13 +38,14 @@ export default {
         {
           label: 'tab' + (len + 1),
           key: 'tab' + (len + 1)
-        },
-        {
-          label: 'tab' + (len + 2),
-          key: 'tab' + (len + 2)
         }
+        // {
+        //   label: 'tab' + (len + 2),
+        //   key: 'tab' + (len + 2)
+        // }
       ]
       this.$refs.tab.addTab(...newTabs)
+      this.tab = 'tab' + (len + 1)
     }
   }
 }

@@ -4,22 +4,25 @@
       .tabs-divider(
         v-for="i in tabs.length"
         :key="i"
-        :style="{ left: (tabWidth - gap * 2) * i + 'px' }"
+        :style="{ left: (tabWidth - gap * 2) * i + gap + 'px' }"
       )
       .tabs-item(
         v-for="(tab, i) in tabs"
         :class="[{ active: tab[tabKey] === value }, `tab-${tab[tabKey]}`]"
         :key="tab[tabKey]"
-        :title="tab.label"
         :style="{ width: tabWidth + 'px' }"
       )
         .tabs-background
-          .tabs-background-header
-            .tabs-background-header-content
-          .tabs-background-footer
-            .tabs-background-before
-            .tabs-background-after
-        .tabs-main
+          .tabs-background-content
+          svg.tabs-background-before(width="7" height="7")
+            path(d="M 0 7 A 7 7 0 0 0 7 0 L 7 7 Z")
+          svg.tabs-background-after(width="7" height="7")
+            path(d="M 0 0 A 7 7 0 0 0 7 7 L 0 7 Z")
+        .tabs-close(@click.stop="handleDelete(tab, i)")
+          slot(v-if="$slots['close-icon']" name="close-icon")
+          svg.tabs-close-icon(v-else width="16" height="16" stroke="#595959")
+            path(d="M 4 4 L 12 12 M 12 4 L 4 12")
+        .tabs-main(:title="tab.label")
           span.tabs-label {{ tab.label }}
 </template>
 
@@ -117,12 +120,11 @@ export default {
       if (tab._instance) return
       let $content = this.$refs.content
       let $el = $content.querySelector(`.tab-${tab[tabKey]}`)
-      tab._instance = new Draggabilly($el, { axis: 'x', containment: $content })
+      tab._instance = new Draggabilly($el, { axis: 'x', containment: $content, handle: '.tabs-main' })
       let x = (tabWidth - gap * 2) * i
       tab._x = x
       tab._instance.setPosition(x, 0)
       tab._instance.on('pointerDown', (e, pointer) => this.handlePointerDown(e, tab, i))
-      tab._instance.on('dragStart', (e, pointer) => this.handleDragStart(e, tab, i))
       tab._instance.on('dragMove', (e, pointer, moveVector) => this.handleDragMove(e, moveVector, tab, i))
       tab._instance.on('dragEnd', (e, pointer) => this.handleDraEnd(e, tab, i))
     },
@@ -143,6 +145,16 @@ export default {
         instance.setPosition(_x, 0)
       })
     },
+    handleDelete (tab, i) {
+      let { tabKey, tabs, value } = this
+      let index = tabs.findIndex(item => item[tabKey] === value)
+      if (i === index) {
+        let before = tabs[i - 1]
+        this.$emit('input', before ? before[tabKey] : null)
+      }
+      tabs.splice(i, 1)
+      this.doLayout()
+    },
     handleResize (e) {
       this.timer && clearTimeout(this.timer)
       this.timer = setTimeout(() => {
@@ -153,14 +165,23 @@ export default {
       let { tabKey } = this
       this.$emit('input', tab[tabKey])
     },
-    handleDragStart (e, tab, i) {
-    },
     handleDragMove (e, moveVector, tab, i) {
       let { tabWidth, tabs, tabKey, gap } = this
       let { instance, targetTab } = getInstanceAt(tabs, tab, tabWidth, tabKey, gap)
       if (instance) {
         this.swapTab(tab, targetTab)
       }
+    },
+    handleDraEnd (e, tab) {
+      let _instance = tab._instance
+      if (_instance.position.x === 0) return
+      setTimeout(() => {
+        _instance.element.classList.add('move')
+        _instance.setPosition(tab._x, 0)
+      }, 50)
+      setTimeout(() => {
+        _instance.element.classList.remove('move')
+      }, 200)
     },
     swapTab (tab, targetTab) {
       let { tabKey, tabs } = this
@@ -186,17 +207,6 @@ export default {
       setTimeout(() => {
         _instance.element.classList.add('move')
         _instance.setPosition(_x, _instance.position.y)
-      }, 50)
-      setTimeout(() => {
-        _instance.element.classList.remove('move')
-      }, 200)
-    },
-    handleDraEnd (e, tab) {
-      let _instance = tab._instance
-      if (_instance.position.x === 0) return
-      setTimeout(() => {
-        _instance.element.classList.add('move')
-        _instance.setPosition(tab._x, 0)
       }, 50)
       setTimeout(() => {
         _instance.element.classList.remove('move')
@@ -241,11 +251,14 @@ export default {
     box-sizing: border-box;
     transition: width @speed;
     position: absolute;
+    // animation: tab-show @speed;
     &:hover {
-      z-index: 2;
-      .tabs-background-header-content,
-      .tabs-background-footer {
+      .tabs-background-content {
         background-color: #f2f3f5;
+      }
+      .tabs-background-before,
+      .tabs-background-after {
+        fill: #f2f3f5;
       }
     }
     &.move {
@@ -255,6 +268,13 @@ export default {
       z-index: 2;
       .tabs-background {
         opacity: 1;
+      }
+      .tabs-background-content {
+        background-color: #fff;
+      }
+      .tabs-background-before,
+      .tabs-background-after {
+        fill: #fff;
       }
     }
     &.is-dragging {
@@ -274,8 +294,7 @@ export default {
       height: 100%;
       left: 0;
       right: 0;
-      margin: 0 @gap;
-      padding: 0 @gap;
+      margin: 0 @gap * 2;
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
       transition: @speed;
@@ -286,51 +305,60 @@ export default {
       box-sizing: border-box;
       overflow: hidden;
     }
+    .tabs-close {
+      top: 50%;
+      right: @gap * 2;
+      width: 16px;
+      height: 16px;
+      z-index: 2;
+      position: absolute;
+      transform: translateY(-50%);
+    }
+    .tabs-close-icon {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      &:hover {
+        stroke: #000;
+        background-color: #e8eaed;
+      }
+    }
     /* background */
     .tabs-background {
       width: 100%;
       height: 100%;
-      opacity: 0;
+      padding: 0 @gap - 1px;
       position: absolute;
+      transition: opacity @speed * 2;
+      box-sizing: border-box;
+      position: relative;
     }
-    .tabs-background-header {
-      top: 0;
-      width: 100%;
-      height: 50%;
-      background-color: @bg;
-      position: absolute;
-    }
-    .tabs-background-header-content {
-      left: @gap;
-      width: ~'calc(100% - 14px)';
+    .tabs-background-content {
       height: 100%;
       border-top-left-radius: @gap;
       border-top-right-radius: @gap;
-      background-color: #fff;
-      position: absolute;
+      transition: background @speed;
     }
-    .tabs-background-footer {
+    .tabs-background-before,
+    .tabs-background-after {
       bottom: 0;
-      width: 100%;
-      height: 50%;
-      background-color: #fff;
       position: absolute;
+      fill: transparent;
+      transition: background @speed;
     }
     .tabs-background-before {
-      left: 0;
-      width: @gap;
-      height: 100%;
-      border-bottom-right-radius: 7px;
-      background-color: @bg;
-      position: absolute;
+      left: -1px;
     }
     .tabs-background-after {
-      right: 0;
-      width: @gap;
-      height: 100%;
-      border-bottom-left-radius: 7px;
-      background-color: @bg;
-      position: absolute;
+      right: -1px;
+    }
+  }
+  @keyframes tab-show {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
     }
   }
 }
