@@ -22,15 +22,21 @@
           slot(v-if="$slots['close-icon']" name="close-icon")
           svg.tabs-close-icon(v-else width="16" height="16" stroke="#595959")
             path(d="M 4 4 L 12 12 M 12 4 L 4 12")
-        .tabs-main(:title="tab.label")
-          span.tabs-favicon(v-if="$slots['favico'] || tab.favico")
-            slot(v-if="$slots['favico']" name="favico" :tab="tab" :index="i")
+        .tabs-main(:title="tab[tabLabel]")
+          span.tabs-favicon(v-if="tab.favico")
+            render-temp(
+              v-if="typeof tab.favico === 'function'"
+              :render="tab.favico"
+              :params="{ tab, index: i }"
+            )
             img(v-else-if="tab.favico" :src="tab.favico")
-          span.tabs-label {{ tab.label }}
+          span.tabs-label {{ tab[tabLabel] }}
+    .tabs-footer
 </template>
 
 <script>
 import Draggabilly from 'draggabilly'
+import Vue from 'vue'
 
 const getInstanceAt = (tabs, tab, tabWidth, tabKey, gap) => {
   let halfWidth = (tabWidth - gap) / 2
@@ -62,6 +68,22 @@ const getInstanceAt = (tabs, tab, tabWidth, tabKey, gap) => {
   }
 }
 
+Vue.component('render-temp', {
+  props: {
+    render: {
+      type: Function,
+      default: () => {}
+    },
+    params: {
+      type: Object,
+      default: () => ({})
+    }
+  },
+  render (h) {
+    return this.render && this.render(h, { ...this.params })
+  }
+})
+
 export default {
   name: 'vue-tabs-chrome',
   props: {
@@ -73,9 +95,11 @@ export default {
       type: Array,
       default: () => []
     },
-    tabKey: {
-      type: String,
-      default: 'key'
+    props: {
+      type: Object,
+      default: () => {
+        return {}
+      }
     },
     minWidth: {
       type: Number,
@@ -84,12 +108,23 @@ export default {
     maxWidth: {
       type: Number,
       default: 245
+    },
+    gap: {
+      type: Number,
+      default: 7
     }
   },
   data () {
     return {
-      gap: 7,
       tabWidth: null
+    }
+  },
+  computed: {
+    tabKey () {
+      return this.props.key || 'key'
+    },
+    tabLabel () {
+      return this.props.label || 'label'
     }
   },
   mounted () {
@@ -120,7 +155,10 @@ export default {
     },
     addInstance (tab, i) {
       let { tabWidth, tabKey, gap } = this
-      if (tab._instance) return
+      if (tab._instance) {
+        tab._instance.setPosition(tab._x, 0)
+        return
+      }
       let $content = this.$refs.content
       let $el = $content.querySelector(`.tab-${tab[tabKey]}`)
       tab._instance = new Draggabilly($el, { axis: 'x', containment: $content, handle: '.tabs-main' })
@@ -156,7 +194,9 @@ export default {
         this.$emit('input', before ? before[tabKey] : null)
       }
       tabs.splice(i, 1)
-      this.doLayout()
+      this.$nextTick(() => {
+        this.doLayout()
+      })
     },
     handleResize (e) {
       this.timer && clearTimeout(this.timer)
@@ -239,7 +279,7 @@ export default {
   .tabs-divider {
     left: 0;
     top: 50%;
-    width: 1px;
+    width: .7px;
     height: 20px;
     background-color: @divider;
     position: absolute;
@@ -301,7 +341,6 @@ export default {
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
       transition: @speed;
-      z-index: 1;
       display: flex;
       align-items: center;
       position: absolute;
@@ -313,7 +352,7 @@ export default {
       right: @gap * 2;
       width: 16px;
       height: 16px;
-      z-index: 2;
+      z-index: 1;
       position: absolute;
       transform: translateY(-50%);
     }
@@ -327,15 +366,21 @@ export default {
       }
     }
     .tabs-favicon {
-      width: 16px;
       height: 16px;
       margin-left: @gap;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
       img {
-        width: 100%;
+        height: 100%;
       }
     }
     .tabs-label {
+      flex: 1;
       margin-left: @gap;
+      margin-right: 16px;
+      box-sizing: border-box;
+      overflow: hidden;
     }
     /* background */
     .tabs-background {
@@ -345,7 +390,6 @@ export default {
       position: absolute;
       transition: opacity @speed * 2;
       box-sizing: border-box;
-      position: relative;
     }
     .tabs-background-content {
       height: 100%;
@@ -367,6 +411,12 @@ export default {
       right: -1px;
     }
   }
+
+  .tabs-footer {
+    height: 4px;
+    background-color: #fff;
+  }
+
   @keyframes tab-show {
     from {
       transform: scaleX(0);
@@ -374,6 +424,44 @@ export default {
     to {
       transform: scaleX(1);
     }
+  }
+}
+.theme-dark {
+  color: #9ca1a7;
+  background-color: #202124;
+  .tabs-item {
+    &:hover {
+      .tabs-background-content {
+        background-color: transparent;
+      }
+      .tabs-background-before,
+      .tabs-background-after {
+        fill: transparent;
+      }
+    }
+    &.active {
+      color: #fff;
+      .tabs-background-content {
+        background-color: #323639;
+      }
+      .tabs-background-before,
+      .tabs-background-after {
+        fill: #323639;
+      }
+    }
+    .tabs-close-icon {
+      stroke: #81878c;
+      &:hover {
+        stroke: #cfd1d2;
+        background-color: #5f6368;
+      }
+    }
+  }
+  .tabs-divider {
+    background-color: #4a4d51;
+  }
+  .tabs-footer {
+    background-color: #323639;
   }
 }
 </style>

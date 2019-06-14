@@ -21,6 +21,13 @@ export default {
           label: 'facebook',
           key: 'facebook',
           favico: require('./assets/fb.jpg')
+        },
+        {
+          label: 'abc',
+          key: 'abc',
+          favico: (h, { tab }) => {
+            return h('span', tab.label)
+          }
         }
       ]
     }
@@ -28,10 +35,11 @@ export default {
   methods: {
     addTab () {
       let len = this.tabs.length
+      let item = 'tab' + Date.now()
       let newTabs = [
         {
-          label: 'tab' + (len + 1),
-          key: 'tab' + (len + 1)
+          label: item,
+          key: item
         }
         // {
         //   label: 'tab' + (len + 2),
@@ -39,7 +47,7 @@ export default {
         // }
       ]
       this.$refs.tab.addTab(...newTabs)
-      this.tab = 'tab' + (len + 1)
+      this.tab = item
     }
   }
 }
