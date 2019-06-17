@@ -52,6 +52,7 @@ export default {
 | tabs | tabs configuration. Details are mentioned below. | Array | [] |
 | value / v-model | binding value | String | - |
 | props | configuration options, Details are mentioned below. |
+| insert-to-after | Insert to tag's after | Boolean | false |
 
 ## Tabs Attributes
 | Attributes | Description | Type | Default |
@@ -65,6 +66,20 @@ export default {
 | - | - | - | - |
 | label | specify which key of tab object is used as the tab's label | String | 'label' |
 | key | specify which key of tab object is used as the tab's key | String | 'key' |
+
+## Methods 
+| Method | Description | Parameters |
+| - | - | - |
+| addTab | add tab | (tab1, [, ...tab, ...tabN]) |
+| removeTab | remove tab | (tabKey | index) |
+| getTabs | get tabs | - |
+
+## Events
+| Event Name | Description | Parameters |
+| - | - | - |
+| swap | swap tab | (tab, targetTab) |
+| remove | remove tab | (tab, index) |
+| contextmenu | contextmenu event | (event, tab, index) |
 
 ## License
 MIT

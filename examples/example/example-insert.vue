@@ -1,9 +1,8 @@
 <template>
   <div class="content">
-    <vue-tabs-chrome ref="tab" v-model="tab" :tabs="tabs" />
+    <vue-tabs-chrome ref="tab" v-model="tab" :tabs="tabs" insert-to-after />
     <div class="btns">
       <button @click="addTab">New Tab</button>
-      <button @click="removeTab">Remove active Tab</button>
     </div>
   </div>
 </template>
@@ -38,9 +37,6 @@ export default {
       ]
       this.$refs.tab.addTab(...newTabs)
       this.tab = item
-    },
-    removeTab () {
-      this.$refs.tab.removeTab(this.tab)
     }
   }
 }

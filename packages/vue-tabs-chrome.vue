@@ -11,6 +11,7 @@
         :class="[{ active: tab[tabKey] === value }, `tab-${tab[tabKey]}`]"
         :key="tab[tabKey]"
         :style="{ width: tabWidth + 'px' }"
+        @contextmenu="e => handleMenu(e, tab, i)"
       )
         .tabs-background
           .tabs-background-content
@@ -113,6 +114,10 @@ export default {
       type: Number,
       default: 7
     },
+    insertToAfter: {
+      type: Boolean,
+      default: false
+    },
     theme: {
       type: String,
       default: ''
@@ -174,11 +179,36 @@ export default {
       tab._instance.on('dragEnd', (e, pointer) => this.handleDraEnd(e, tab, i))
     },
     addTab (...tabs) {
-      this.tabs.push(...tabs)
+      let { insertToAfter, value, tabKey } = this
+      if (insertToAfter) {
+        let i = this.tabs.findIndex(tab => tab[tabKey] === value)
+        this.tabs.splice(i + 1, 0, ...tabs)
+      } else {
+        this.tabs.push(...tabs)
+      }
       this.$nextTick(() => {
         this.setup()
         this.doLayout()
       })
+    },
+    removeTab (key) {
+      let { tabKey, tabs } = this
+      let index = -1
+      let targetTab = null
+      if (typeof tab === 'number') {
+        index = key
+        targetTab = this.tabs[index]
+      } else {
+        tabs.forEach((tab, i) => {
+          if (tab[tabKey] === key) {
+            index = i
+            targetTab = tab
+          }
+        })
+      }
+      if (index >= 0 && targetTab) {
+        this.handleDelete(targetTab, index)
+      }
     },
     doLayout () {
       this.calcTabWidth()
@@ -193,11 +223,20 @@ export default {
     handleDelete (tab, i) {
       let { tabKey, tabs, value } = this
       let index = tabs.findIndex(item => item[tabKey] === value)
+      let after, before
       if (i === index) {
-        let before = tabs[i - 1]
-        this.$emit('input', before ? before[tabKey] : null)
+        after = tabs[i + 1]
+        before = tabs[i - 1]
+      }
+      if (after) {
+        this.$emit('input', after[tabKey])
+      } else if (before) {
+        this.$emit('input', before[tabKey])
+      } else if (tabs.length <= 1) {
+        this.$emit('input', null)
       }
       tabs.splice(i, 1)
+      this.$emit('remove', tab, i)
       this.$nextTick(() => {
         this.doLayout()
       })
@@ -230,6 +269,9 @@ export default {
         _instance.element.classList.remove('move')
       }, 200)
     },
+    handleMenu (e, tab, index) {
+      this.$emit('contextmenu', e, tab, index)
+    },
     swapTab (tab, targetTab) {
       let { tabKey, tabs } = this
       let index, targetIndex
@@ -257,7 +299,18 @@ export default {
       }, 50)
       setTimeout(() => {
         _instance.element.classList.remove('move')
+        this.$emit('swap', tab, targetTab)
       }, 200)
+    },
+    getTabs () {
+      return this.tabs.map(tab => {
+        let item = {
+          ...tab
+        }
+        delete item._instance
+        delete item._x
+        return item
+      })
     }
   }
 }
@@ -406,7 +459,7 @@ export default {
   }
   .tabs-background-before,
   .tabs-background-after {
-    bottom: 0;
+    bottom: -1px;
     position: absolute;
     fill: transparent;
     transition: background @speed;

@@ -3,11 +3,24 @@
     <h1>vue-tabs-chrome </h1>
     <p>A Vue component for Chrome-like tabs.</p>
     <h2>Default</h2>
+    <p>
+      <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example.vue" target="_blank">code</a>
+    </p>
     <example />
     <h2>Theme Dark</h2>
+    <p>
+      <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-dark.vue" target="_blank">code</a>
+    </p>
     <example-dark />
     <h2>Theme Custom</h2>
+    <p>
+      <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-custom.vue" target="_blank">code</a>
+    </p>
     <example-custom />
+    <h2>Insert to tag's after</h2>
+    <example-insert />
+    <h2>Save to Localstorage</h2>
+    <example-save />
   </div>
 </template>
 
@@ -15,10 +28,12 @@
 import Example from './example/example'
 import ExampleDark from './example/example-dark'
 import ExampleCustom from './example/example-custom'
+import ExampleInsert from './example/example-insert'
+import ExampleSave from './example/example-save'
 
 export default {
   name: 'app',
-  components: { Example, ExampleDark, ExampleCustom }
+  components: { Example, ExampleDark, ExampleCustom, ExampleInsert, ExampleSave }
 }
 </script>
 
