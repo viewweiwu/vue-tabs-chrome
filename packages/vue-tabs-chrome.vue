@@ -1,5 +1,5 @@
 <template lang="pug">
-  .vue-tabs-chrome
+  .vue-tabs-chrome(:class="'theme-' + theme")
     .tabs-content(ref="content")
       .tabs-divider(
         v-for="i in tabs.length"
@@ -112,6 +112,10 @@ export default {
     gap: {
       type: Number,
       default: 7
+    },
+    theme: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -333,83 +337,85 @@ export default {
         opacity: 0;
       }
     }
-    .tabs-main {
+  }
+  .tabs-main {
+    height: 100%;
+    left: 0;
+    right: 0;
+    margin: 0 @gap * 2;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    transition: @speed;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  .tabs-close {
+    top: 50%;
+    right: @gap * 2;
+    width: 16px;
+    height: 16px;
+    z-index: 1;
+    position: absolute;
+    transform: translateY(-50%);
+  }
+  .tabs-close-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    &:hover {
+      stroke: #000;
+      background-color: #e8eaed;
+    }
+  }
+  .tabs-favicon {
+    height: 16px;
+    margin-left: @gap;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    img {
       height: 100%;
-      left: 0;
-      right: 0;
-      margin: 0 @gap * 2;
-      border-top-left-radius: 5px;
-      border-top-right-radius: 5px;
-      transition: @speed;
-      display: flex;
-      align-items: center;
-      position: absolute;
-      box-sizing: border-box;
-      overflow: hidden;
     }
-    .tabs-close {
-      top: 50%;
-      right: @gap * 2;
-      width: 16px;
-      height: 16px;
-      z-index: 1;
-      position: absolute;
-      transform: translateY(-50%);
-    }
-    .tabs-close-icon {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      &:hover {
-        stroke: #000;
-        background-color: #e8eaed;
-      }
-    }
-    .tabs-favicon {
-      height: 16px;
-      margin-left: @gap;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-      img {
-        height: 100%;
-      }
-    }
-    .tabs-label {
-      flex: 1;
-      margin-left: @gap;
-      margin-right: 16px;
-      box-sizing: border-box;
-      overflow: hidden;
-    }
-    /* background */
-    .tabs-background {
-      width: 100%;
-      height: 100%;
-      padding: 0 @gap - 1px;
-      position: absolute;
-      transition: opacity @speed * 2;
-      box-sizing: border-box;
-    }
-    .tabs-background-content {
-      height: 100%;
-      border-top-left-radius: @gap;
-      border-top-right-radius: @gap;
-      transition: background @speed;
-    }
-    .tabs-background-before,
-    .tabs-background-after {
-      bottom: 0;
-      position: absolute;
-      fill: transparent;
-      transition: background @speed;
-    }
-    .tabs-background-before {
-      left: -1px;
-    }
-    .tabs-background-after {
-      right: -1px;
-    }
+  }
+  .tabs-label {
+    flex: 1;
+    margin-left: @gap;
+    margin-right: 16px;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  /* background */
+  .tabs-background {
+    width: 100%;
+    height: 100%;
+    padding: 0 @gap - 1px;
+    position: absolute;
+    transition: opacity @speed * 2;
+    box-sizing: border-box;
+  }
+  .tabs-background-content {
+    height: 100%;
+    border-top-left-radius: @gap;
+    border-top-right-radius: @gap;
+    transition: background @speed;
+  }
+  .tabs-background-before,
+  .tabs-background-after {
+    bottom: 0;
+    position: absolute;
+    fill: transparent;
+    transition: background @speed;
+  }
+  .tabs-background-before {
+    left: -1px;
+  }
+  .tabs-background-after {
+    right: -1px;
   }
 
   .tabs-footer {

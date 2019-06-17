@@ -1,7 +1,14 @@
 .DS_Store
-node_modules
-/dist
-/lib
+node_modules/
+examples/
+packages/
+public/
+dist/
+vue.config.js
+babel.config.js
+deploy.sh
+*.map
+*.html
 
 # local env files
 .env.local
@@ -19,4 +26,4 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
+*.sw*

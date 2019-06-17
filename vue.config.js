@@ -4,9 +4,21 @@ function resolve (dir) {
 }
 module.exports = {
   lintOnSave: false,
+  productionSourceMap: false,
   publicPath: process.env.NODE_ENV === 'production'
     ? '/vue-tabs-chrome/'
     : '/',
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://192.168.1.128:3000',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      }
+    }
+  },
   pages: {
     index: {
       entry: 'examples/main.js',

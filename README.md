@@ -1,29 +1,70 @@
 # vue-tabs-chrome
+A Vue component for Chrome-like tabs.<br>
+Drag-and-drop support provided by Draggabilly by @desandro.
 
-## Project setup
-```
-npm install
-```
+## Live Demo
+[https://viewweiwu.github.io/vue-tabs-chrome/](https://viewweiwu.github.io/vue-tabs-chrome/)
 
-### Compiles and hot-reloads for development
+## Install
 ```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
+npm install --save vue-tabs-chrome
 ```
 
-### Run your tests
-```
-npm run test
+## Usage
+``` html
+<template>
+  <vue-tabs-chrome v-model="tab" :tabs="tabs" />
+</template>
+<script>
+export default {
+  data () {
+    return {
+      tab: 'google',
+      tabs: [
+        {
+          label: 'google',
+          key: 'google',
+          favico: require('./assets/google.jpg')
+        },
+        {
+          label: 'facebook',
+          key: 'facebook',
+          favico: require('./assets/fb.jpg')
+        },
+        {
+          label: 'New Tab',
+          key: 'costom key',
+          favico: (h, { tab, index }) => {
+            return h('span', tab.label)
+          }
+        }
+      ]
+    }
+  }
+}
+</script>
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Attributes
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+| Attributes | Description | Type | Default |
+| - | - | - | - |
+| tabs | tabs configuration. Details are mentioned below. | Array | [] |
+| value / v-model | binding value | String | - |
+| props | configuration options, Details are mentioned below. |
+
+## Tabs Attributes
+| Attributes | Description | Type | Default |
+| - | - | - | - |
+| label | tab label | String | - |
+| key | tab key | String | - |
+| favico | tab favico. Custom favico renderer. It uses Vue's render function. It accepts two arguments: the first is h, the second is an object. including tab and index | Function, required image | - |
+
+## Props Attributes
+| Attributes | Description | Type | Default |
+| - | - | - | - |
+| label | specify which key of tab object is used as the tab's label | String | 'label' |
+| key | specify which key of tab object is used as the tab's key | String | 'key' |
+
+## License
+MIT
