@@ -71,7 +71,7 @@ export default {
 | Method | Description | Parameters |
 | - | - | - |
 | addTab | add tab | (tab1, [, ...tab, ...tabN]) |
-| removeTab | remove tab | (tabKey | index) |
+| removeTab | remove tab | (tabKey or index) |
 | getTabs | get tabs | - |
 
 ## Events
