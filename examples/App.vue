@@ -2,6 +2,14 @@
   <div id="app">
     <h1>vue-tabs-chrome </h1>
     <p>A Vue component for Chrome-like tabs.</p>
+    <p>
+      <a href="https://github.com/viewweiwu/vue-tabs-chrome" target="_blank">
+        <button>
+          <img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1273111538,3388165957&fm=26&gp=0.jpg" alt="">
+          <span>github</span>
+        </button>
+      </a>
+    </p>
     <h2>Default</h2>
     <p>
       <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example.vue" target="_blank">code</a>
@@ -18,8 +26,14 @@
     </p>
     <example-custom />
     <h2>Insert to tag's after</h2>
+    <p>
+      <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-insert.vue" target="_blank">code</a>
+    </p>
     <example-insert />
     <h2>Save to Localstorage</h2>
+    <p>
+      <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-save.vue" target="_blank">code</a>
+    </p>
     <example-save />
   </div>
 </template>
@@ -63,6 +77,19 @@ h2 {
   margin: 55px 0 15px;
 }
 
+a {
+  color: #ff4081;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+  img {
+    height: 1.5em;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+}
+
 #app {
   width: 1200px;
   padding: 0 20px;
@@ -82,6 +109,9 @@ button {
   color: #000;
   background-color: #fff;
   cursor: pointer;
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 button + button {
