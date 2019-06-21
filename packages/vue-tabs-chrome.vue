@@ -185,7 +185,8 @@ export default {
       tab._instance.setPosition(x, 0)
       tab._instance.on('pointerDown', (e, pointer) => this.handlePointerDown(e, tab, i))
       tab._instance.on('dragMove', (e, pointer, moveVector) => this.handleDragMove(e, moveVector, tab, i))
-      tab._instance.on('dragEnd', (e, pointer) => this.handleDraEnd(e, tab, i))
+      tab._instance.on('dragEnd', (e, pointer) => this.handleDragEnd(e, tab, i))
+      tab._instance.on('staticClick', (e, pointer) => this.handleClick(e, tab, i))
     },
     addTab (...tabs) {
       let { insertToAfter, value, tabKey } = this
@@ -267,7 +268,7 @@ export default {
         this.swapTab(tab, targetTab)
       }
     },
-    handleDraEnd (e, tab) {
+    handleDragEnd (e, tab) {
       let _instance = tab._instance
       if (_instance.position.x === 0) return
       setTimeout(() => {
@@ -277,6 +278,9 @@ export default {
       setTimeout(() => {
         _instance.element.classList.remove('move')
       }, 200)
+    },
+    handleClick (e, tab, index) {
+      this.$emit('click', e, tab, index)
     },
     handleMenu (e, tab, index) {
       this.$emit('contextmenu', e, tab, index)

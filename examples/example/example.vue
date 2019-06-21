@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <vue-tabs-chrome ref="tab" v-model="tab" :tabs="tabs" />
+    <vue-tabs-chrome ref="tab" v-model="tab" :tabs="tabs" @click="handleClick" />
     <div class="btns">
       <button @click="addTab">New Tab</button>
       <button @click="removeTab">Remove active Tab</button>
@@ -48,6 +48,9 @@ export default {
     },
     removeTab () {
       this.$refs.tab.removeTab(this.tab)
+    },
+    handleClick (e, tab, i) {
+      console.log(e, tab, i)
     }
   }
 }

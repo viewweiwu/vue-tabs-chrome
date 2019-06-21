@@ -78,9 +78,10 @@ export default {
 ## Events
 | Event Name | Description | Parameters |
 | - | - | - |
-| swap | swap tab | (tab, targetTab) |
-| remove | remove tab | (tab, index) |
-| contextmenu | contextmenu event | (event, tab, index) |
+| click | Triggered when the user's pointer is pressed and unpressed and has not moved enough to start dragging. | (event, tab, index) |
+| swap | Swap tab | (tab, targetTab) |
+| remove | Remove tab | (tab, index) |
+| contextmenu | Contextmenu event | (event, tab, index) |
 
 ## License
 MIT
