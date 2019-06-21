@@ -10,6 +10,11 @@
         </button>
       </a>
     </p>
+    <h2>Custom props</h2>
+    <p>
+      <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-save.vue" target="_blank">code</a>
+    </p>
+    <example-key />
     <h2>Default</h2>
     <p>
       <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example.vue" target="_blank">code</a>
@@ -44,10 +49,11 @@ import ExampleDark from './example/example-dark'
 import ExampleCustom from './example/example-custom'
 import ExampleInsert from './example/example-insert'
 import ExampleSave from './example/example-save'
+import ExampleKey from './example/example-key'
 
 export default {
   name: 'app',
-  components: { Example, ExampleDark, ExampleCustom, ExampleInsert, ExampleSave }
+  components: { Example, ExampleDark, ExampleCustom, ExampleInsert, ExampleSave, ExampleKey }
 }
 </script>
 
@@ -98,7 +104,7 @@ a {
 }
 
 .btns {
-  padding: 50px;
+  padding: 50px 30px;
 }
 
 button {

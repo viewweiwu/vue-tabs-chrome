@@ -8,8 +8,8 @@
       )
       .tabs-item(
         v-for="(tab, i) in tabs"
-        :class="[{ active: tab[tabKey] === value }, `tab-${tab[tabKey]}`]"
-        :key="tab[tabKey]"
+        :class="[{ active: getKey(tab) === value }, `tab-${getKey(tab)}`]"
+        :key="getKey(tab)"
         :style="{ width: tabWidth + 'px' }"
         @contextmenu="e => handleMenu(e, tab, i)"
       )
@@ -31,20 +31,20 @@
               :params="{ tab, index: i }"
             )
             img(v-else-if="tab.favico" :src="tab.favico")
-          span.tabs-label {{ tab[tabLabel] }}
+          span.tabs-label {{ tab | tabLabelText(tabLabel) }}
     .tabs-footer
 </template>
 
 <script>
 import Draggabilly from 'draggabilly'
-import Vue from 'vue'
+import RenderTemp from './render-temp'
 
 const getInstanceAt = (tabs, tab, tabWidth, tabKey, gap) => {
   let halfWidth = (tabWidth - gap) / 2
   let x = tab._instance.position.x
   for (let i = 0; i < tabs.length; i++) {
     let targetX = tabs[i]._x - 1
-    if (tab[tabKey] === tabs[i][tabKey]) continue
+    if (getKey(tab, tabKey) === getKey(tabs[i], tabKey)) continue
     // in range
     if (targetX <= x && x < targetX + halfWidth / 2) {
       // before range
@@ -69,24 +69,24 @@ const getInstanceAt = (tabs, tab, tabWidth, tabKey, gap) => {
   }
 }
 
-Vue.component('render-temp', {
-  props: {
-    render: {
-      type: Function,
-      default: () => {}
-    },
-    params: {
-      type: Object,
-      default: () => ({})
-    }
-  },
-  render (h) {
-    return this.render && this.render(h, { ...this.params })
-  }
-})
+const getParams = (tab, keyStr) => {
+  let keys = keyStr.split('.')
+  let label = tab
+  keys.forEach(key => {
+    label = label[key]
+  })
+  return label
+}
+
+const getKey = (tab, tabKey) => {
+  return getParams(tab, tabKey)
+}
 
 export default {
   name: 'vue-tabs-chrome',
+  components: {
+    RenderTemp
+  },
   props: {
     value: {
       type: [String, Number],
@@ -126,6 +126,11 @@ export default {
   data () {
     return {
       tabWidth: null
+    }
+  },
+  filters: {
+    tabLabelText (tab, tabLabel = '') {
+      return getParams(tab, tabLabel)
     }
   },
   computed: {
@@ -169,7 +174,7 @@ export default {
         return
       }
       let $content = this.$refs.content
-      let $el = $content.querySelector(`.tab-${tab[tabKey]}`)
+      let $el = $content.querySelector(`.tab-${getKey(tab, tabKey)}`)
       tab._instance = new Draggabilly($el, { axis: 'x', containment: $content, handle: '.tabs-main' })
       let x = (tabWidth - gap * 2) * i
       tab._x = x
@@ -181,7 +186,7 @@ export default {
     addTab (...tabs) {
       let { insertToAfter, value, tabKey } = this
       if (insertToAfter) {
-        let i = this.tabs.findIndex(tab => tab[tabKey] === value)
+        let i = this.tabs.findIndex(tab => getKey(tab, tabKey) === value)
         this.tabs.splice(i + 1, 0, ...tabs)
       } else {
         this.tabs.push(...tabs)
@@ -200,7 +205,7 @@ export default {
         targetTab = this.tabs[index]
       } else {
         tabs.forEach((tab, i) => {
-          if (tab[tabKey] === key) {
+          if (getKey(tab, tabKey) === key) {
             index = i
             targetTab = tab
           }
@@ -222,16 +227,16 @@ export default {
     },
     handleDelete (tab, i) {
       let { tabKey, tabs, value } = this
-      let index = tabs.findIndex(item => item[tabKey] === value)
+      let index = tabs.findIndex(item => getKey(item, tabKey) === value)
       let after, before
       if (i === index) {
         after = tabs[i + 1]
         before = tabs[i - 1]
       }
       if (after) {
-        this.$emit('input', after[tabKey])
+        this.$emit('input', getKey(after, tabKey))
       } else if (before) {
-        this.$emit('input', before[tabKey])
+        this.$emit('input', getKey(before, tabKey))
       } else if (tabs.length <= 1) {
         this.$emit('input', null)
       }
@@ -249,7 +254,7 @@ export default {
     },
     handlePointerDown (e, tab, i) {
       let { tabKey } = this
-      this.$emit('input', tab[tabKey])
+      this.$emit('input', getKey(tab, tabKey))
     },
     handleDragMove (e, moveVector, tab, i) {
       let { tabWidth, tabs, tabKey, gap } = this
@@ -276,10 +281,10 @@ export default {
       let { tabKey, tabs } = this
       let index, targetIndex
       for (let i = 0; i < tabs.length; i++) {
-        if (tab[tabKey] === tabs[i][tabKey]) {
+        if (getKey(tab, tabKey) === getKey(tabs[i], tabKey)) {
           index = i
         }
-        if (targetTab[tabKey] === tabs[i][tabKey]) {
+        if (getKey(targetTab, tabKey) === getKey(tabs[i], tabKey)) {
           targetIndex = i
         }
       }
@@ -311,6 +316,9 @@ export default {
         delete item._x
         return item
       })
+    },
+    getKey (tab) {
+      return getKey(tab, this.tabKey)
     }
   }
 }

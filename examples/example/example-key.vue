@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <vue-tabs-chrome ref="tab" v-model="tab" :tabs="tabs" />
+    <vue-tabs-chrome ref="tab" v-model="tab" :tabs="tabs" :props="{ key: 'meta.key', label: 'meta.title' }" />
     <div class="btns">
       <button @click="addTab">New Tab</button>
       <button @click="removeTab">Remove active Tab</button>
@@ -12,23 +12,33 @@
 export default {
   data () {
     return {
-      tab: 'google',
+      tab: 'hello1',
       tabs: [
         {
           label: 'google',
           key: 'google',
-          favico: require('../assets/google.jpg')
+          favico: require('../assets/google.jpg'),
+          meta: {
+            key: 'hello1'
+          }
         },
         {
           label: 'facebook',
           key: 'facebook',
-          favico: require('../assets/fb.jpg')
+          favico: require('../assets/fb.jpg'),
+          meta: {
+            key: 'hello2'
+          }
         },
         {
           label: 'New Tab',
           key: 'costomKey',
           favico: (h, { tab, index }) => {
-            return h('span', tab.label)
+            return h('span', { style: { color: 'red' } }, '*')
+          },
+          meta: {
+            title: 'aaa',
+            key: 'hello3'
           }
         }
       ]
@@ -40,7 +50,10 @@ export default {
       let newTabs = [
         {
           label: 'New Tab',
-          key: item
+          key: item,
+          meta: {
+            key: item
+          }
         }
       ]
       this.$refs.tab.addTab(...newTabs)

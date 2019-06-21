@@ -4,7 +4,9 @@ function resolve (dir) {
 }
 module.exports = {
   lintOnSave: false,
-  productionSourceMap: false,
+  css: {
+    extract: false
+  },
   publicPath: process.env.NODE_ENV === 'production'
     ? '/vue-tabs-chrome/'
     : '/',
@@ -29,5 +31,15 @@ module.exports = {
   chainWebpack: (config) => {
     config.resolve.alias
       .set('@', resolve('examples/assets'))
+    config.module
+      .rule('js').include
+      .add('/packages')
+      .end()
+    //   .use('babel')
+    //   .loader('babel-loader')
+    //   .tap(options => {
+    //     // 修改它的选项...
+    //     return options
+    //   })
   }
 }
