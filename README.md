@@ -53,6 +53,7 @@ export default {
 | value / v-model | binding value | String | - |
 | props | configuration options, Details are mentioned below. |
 | insert-to-after | Insert to tag's after | Boolean | false |
+| is-mousedown-active | set tab is active when mousedown | Boolean | true |
 
 ## Tabs Attributes
 | Attributes | Description | Type | Default |

@@ -1,5 +1,5 @@
 <template lang="pug">
-  .vue-tabs-chrome(:class="'theme-' + theme")
+  .vue-tabs-chrome(:class="theme ? 'theme-' + theme : ''")
     .tabs-content(ref="content")
       .tabs-divider(
         v-for="i in tabs.length"
@@ -121,6 +121,10 @@ export default {
     theme: {
       type: String,
       default: ''
+    },
+    mousedownActive: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
@@ -253,8 +257,8 @@ export default {
       }, 100)
     },
     handlePointerDown (e, tab, i) {
-      let { tabKey } = this
-      this.$emit('input', getKey(tab, tabKey))
+      let { tabKey, isMousedownActive } = this
+      isMousedownActive && this.$emit('input', getKey(tab, tabKey))
     },
     handleDragMove (e, moveVector, tab, i) {
       let { tabWidth, tabs, tabKey, gap } = this
