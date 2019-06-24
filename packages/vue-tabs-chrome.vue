@@ -23,7 +23,7 @@
           slot(v-if="$slots['close-icon']" name="close-icon")
           svg.tabs-close-icon(v-else width="16" height="16" stroke="#595959")
             path(d="M 4 4 L 12 12 M 12 4 L 4 12")
-        .tabs-main(:title="tab[tabLabel]")
+        .tabs-main(:title="tab | tabLabelText(tabLabel)")
           span.tabs-favicon(v-if="tab.favico")
             render-temp(
               v-if="typeof tab.favico === 'function'"
@@ -352,7 +352,7 @@ export default {
   .tabs-divider {
     left: 0;
     top: 50%;
-    width: .7px;
+    width: 1px;
     height: 20px;
     background-color: @divider;
     position: absolute;
@@ -380,6 +380,16 @@ export default {
     &.move {
       transition: @speed;
     }
+    &.is-dragging {
+      z-index: 3;
+      .tabs-background-content {
+        background-color: #f2f3f5;
+      }
+      .tabs-background-before,
+      .tabs-background-after {
+        fill: #f2f3f5;
+      }
+    }
     &.active {
       z-index: 2;
       .tabs-background {
@@ -392,9 +402,6 @@ export default {
       .tabs-background-after {
         fill: #fff;
       }
-    }
-    &.is-dragging {
-      z-index: 2;
     }
     &:first-of-type {
       .tabs-dividers::before {
@@ -507,7 +514,16 @@ export default {
   .tabs-item {
     &:hover {
       .tabs-background-content {
-        background-color: transparent;
+        background-color: #202124;
+      }
+      .tabs-background-before,
+      .tabs-background-after {
+        fill: transparent;
+      }
+    }
+    &.is-dragging {
+      .tabs-background-content {
+        background-color: #202124;
       }
       .tabs-background-before,
       .tabs-background-after {

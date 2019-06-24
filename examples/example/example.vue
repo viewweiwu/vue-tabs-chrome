@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <vue-tabs-chrome ref="tab" v-model="tab" :tabs="tabs" @click="handleClick" />
+    <vue-tabs-chrome ref="tab" v-model="tab" :tabs="tabs" @contextmenu="handleClick" />
     <div class="btns">
       <button @click="addTab">New Tab</button>
       <button @click="removeTab">Remove active Tab</button>
