@@ -122,7 +122,7 @@ export default {
       type: String,
       default: ''
     },
-    mousedownActive: {
+    isMousedownActive: {
       type: Boolean,
       default: true
     }
