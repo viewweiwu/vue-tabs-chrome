@@ -8,6 +8,7 @@
       )
       .tabs-item(
         v-for="(tab, i) in tabs"
+        ref="item"
         :class="[{ active: getKey(tab) === value }, `tab-${getKey(tab)}`]"
         :key="getKey(tab)"
         :style="{ width: tabWidth + 'px' }"
@@ -178,7 +179,8 @@ export default {
         return
       }
       let $content = this.$refs.content
-      let $el = $content.querySelector(`.tab-${getKey(tab, tabKey)}`)
+      let $item = this.$refs.item
+      let $el = $item.find(el => el.classList.contains(`tab-${getKey(tab, tabKey)}`))
       tab._instance = new Draggabilly($el, { axis: 'x', containment: $content, handle: '.tabs-main' })
       let x = (tabWidth - gap * 2) * i
       tab._x = x

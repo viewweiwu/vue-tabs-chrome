@@ -16,7 +16,7 @@ export default {
       tabs: [
         {
           label: 'google',
-          key: 'google',
+          key: 'google/3',
           favico: require('../assets/google.jpg')
         },
         {

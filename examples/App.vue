@@ -10,7 +10,6 @@
         </button>
       </a>
     </p>
-    <example-key />
     <h2>Default</h2>
     <p>
       <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example.vue" target="_blank">code</a>
