@@ -24,7 +24,7 @@
           slot(v-if="$slots['close-icon']" name="close-icon")
           svg.tabs-close-icon(v-else width="16" height="16" stroke="#595959")
             path(d="M 4 4 L 12 12 M 12 4 L 4 12")
-        .tabs-main(:title="tab | tabLabelText(tabLabel)")
+        .tabs-main(:title="tab | tabLabelText(tabLabel, renderLabel)")
           span.tabs-favicon(v-if="tab.favico")
             render-temp(
               v-if="typeof tab.favico === 'function'"
@@ -32,7 +32,7 @@
               :params="{ tab, index: i }"
             )
             img(v-else-if="tab.favico" :src="tab.favico")
-          span.tabs-label {{ tab | tabLabelText(tabLabel) }}
+          span.tabs-label {{ tab | tabLabelText(tabLabel, renderLabel) }}
     .tabs-footer
 </template>
 
@@ -126,6 +126,9 @@ export default {
     isMousedownActive: {
       type: Boolean,
       default: true
+    },
+    renderLabel: {
+      type: Function
     }
   },
   data () {
@@ -134,8 +137,8 @@ export default {
     }
   },
   filters: {
-    tabLabelText (tab, tabLabel = '') {
-      return getParams(tab, tabLabel)
+    tabLabelText (tab, tabLabel = '', renderLabel) {
+      return renderLabel ? renderLabel(tab) : getParams(tab, tabLabel)
     }
   },
   computed: {
