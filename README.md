@@ -24,6 +24,7 @@ export default {
         {
           label: 'google',
           key: 'google',
+          closable: false,
           favico: require('./assets/google.jpg')
         },
         {
@@ -61,6 +62,7 @@ export default {
 | - | - | - | - |
 | label | tab label | String | - |
 | key | tab key | String | - |
+| closable | tab closable（） | Boolean | true |
 | favico | tab favico. Custom favico renderer. It uses Vue's render function. It accepts two arguments: the first is h, the second is an object. including tab and index | Function, required image | - |
 
 ## Props Attributes
