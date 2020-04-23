@@ -2,7 +2,7 @@
   .vue-tabs-chrome(:class="theme ? 'theme-' + theme : ''")
     .tabs-content(ref="content")
       .tabs-divider(
-        v-for="i in tabs.length"
+        v-for="i in (tabs.length - 1)"
         :key="i"
         :style="{ left: (tabWidth - gap * 2) * i + gap + 'px' }"
       )
@@ -20,7 +20,7 @@
             path(d="M 0 7 A 7 7 0 0 0 7 0 L 7 7 Z")
           svg.tabs-background-after(width="7" height="7")
             path(d="M 0 0 A 7 7 0 0 0 7 7 L 0 7 Z")
-        .tabs-close(@click.stop="handleDelete(tab, i)" v-if="tab.closable !== false")
+        .tabs-close(@click.stop="handleDelete(tab, i)")
           slot(v-if="$slots['close-icon']" name="close-icon")
           svg.tabs-close-icon(v-else width="16" height="16" stroke="#595959")
             path(d="M 4 4 L 12 12 M 12 4 L 4 12")
@@ -344,12 +344,15 @@ export default {
 .vue-tabs-chrome {
   @bg: #dee1e6;
   @gap: 7px;
-  @divider: #8a8e92;
+  @divider: #a9adb0;
   @speed: 150ms;
 
+  color: #5f6368;
   padding-top: 10px;
   background-color: @bg;
   position: relative;
+  text-transform: capitalize;
+  font-size: 12px;
 
   .tabs-content {
     height: 34px;
