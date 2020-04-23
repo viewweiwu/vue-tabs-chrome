@@ -40,7 +40,8 @@ export default {
       let newTabs = [
         {
           label: 'New Tab',
-          key: item
+          key: item,
+          closable: false
         }
       ]
       this.$refs.tab.addTab(...newTabs)

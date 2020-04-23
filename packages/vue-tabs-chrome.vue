@@ -2,7 +2,7 @@
   .vue-tabs-chrome(:class="theme ? 'theme-' + theme : ''")
     .tabs-content(ref="content")
       .tabs-divider(
-        v-for="i in tabs.length"
+        v-for="i in (tabs.length - 1)"
         :key="i"
         :style="{ left: (tabWidth - gap * 2) * i + gap + 'px' }"
       )
@@ -344,12 +344,15 @@ export default {
 .vue-tabs-chrome {
   @bg: #dee1e6;
   @gap: 7px;
-  @divider: #8a8e92;
+  @divider: #a9adb0;
   @speed: 150ms;
 
+  color: #5f6368;
   padding-top: 10px;
   background-color: @bg;
   position: relative;
+  text-transform: capitalize;
+  font-size: 12px;
 
   .tabs-content {
     height: 34px;
