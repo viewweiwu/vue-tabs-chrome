@@ -25,6 +25,12 @@
       <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-custom.vue" target="_blank">code</a>
     </p>
     <example-custom />
+    <h2>Event Listener</h2>
+    <p>
+      <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-custom-close.vue" target="_blank">code</a>
+    </p>
+    <p>google tab has custom close icon, and cant close.</p>
+    <example-custom-close></example-custom-close>
     <h2>Insert to tag's after</h2>
     <p>
       <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-insert.vue" target="_blank">code</a>
@@ -44,10 +50,10 @@ import ExampleDark from './example/example-dark'
 import ExampleCustom from './example/example-custom'
 import ExampleInsert from './example/example-insert'
 import ExampleSave from './example/example-save'
-
+import ExampleCustomClose from './example/example-custom-close'
 export default {
   name: 'app',
-  components: { Example, ExampleDark, ExampleCustom, ExampleInsert, ExampleSave }
+  components: { Example, ExampleDark, ExampleCustom, ExampleInsert, ExampleSave, ExampleCustomClose }
 }
 </script>
 

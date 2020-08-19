@@ -1,6 +1,6 @@
 <template>
-  <div class="content">
-    <vue-tabs-chrome ref="tab" v-model="tab" :tabs="tabs" @contextmenu="handleClick" />
+  <div class="content example-custom-close">
+    <vue-tabs-chrome ref="tab" v-model="tab" :tabs="tabs" @contextmenu="handleClick" :onClose="onClose" />
     <div class="btns">
       <button @click="addTab">New Tab</button>
       <button @click="removeTab">Remove active Tab</button>
@@ -17,6 +17,7 @@ export default {
         {
           label: 'google',
           key: 'google',
+          class: 'go',
           favico: require('../assets/google.jpg')
         },
         {
@@ -26,7 +27,10 @@ export default {
         },
         {
           label: 'New Tab',
-          key: 'costomKey'
+          key: 'costomKey',
+          favico: (h, { tab, index }) => {
+            return h('span', tab.label)
+          }
         }
       ]
     }
@@ -49,7 +53,37 @@ export default {
     },
     handleClick (e, tab, i) {
       console.log(e, tab, i)
+    },
+    onClose (tab, key, index) {
+      console.log(tab, key, index)
+      // do not update tab key
+      if (tab.class === 'go') {
+        alert('you cant close this tab')
+        return false
+      }
+      return true
     }
   }
 }
 </script>
+
+<style lang="less">
+.example-custom-close {
+  .go {
+    .tabs-close {
+      svg {
+        display: none;
+      }
+      &::after {
+        content: '';
+        width: 80%;
+        height: 80%;
+        border-radius: 50%;
+        background-color: #f06;
+        position: relative;
+        display: inline-block;
+      }
+    }
+  }
+}
+</style>

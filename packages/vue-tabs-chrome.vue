@@ -9,7 +9,7 @@
       .tabs-item(
         v-for="(tab, i) in tabs"
         ref="item"
-        :class="[{ active: getKey(tab) === value }, `tab-${getKey(tab)}`]"
+        :class="[{ active: getKey(tab) === value }, `tab-${getKey(tab)}`, tab.class].filter(item => item)"
         :key="getKey(tab)"
         :style="{ width: tabWidth + 'px' }"
         @contextmenu="e => handleMenu(e, tab, i)"
@@ -129,6 +129,9 @@ export default {
     },
     renderLabel: {
       type: Function
+    },
+    onClose: {
+      type: Function
     }
   },
   data () {
@@ -236,6 +239,9 @@ export default {
       })
     },
     handleDelete (tab, i) {
+      if (typeof this.onClose === 'function' && !this.onClose(tab, tab.key, i)) {
+        return false
+      }
       let { tabKey, tabs, value } = this
       let index = tabs.findIndex(item => getKey(item, tabKey) === value)
       let after, before

@@ -56,12 +56,14 @@ export default {
 | insert-to-after | Insert to tag's after | Boolean | false |
 | is-mousedown-active | set tab is active when mousedown | Boolean | true |
 | renderLabel | render label | Function(tab, index) | - |
+| onClose | when tab close btn click. if return false, it cannot be closed. | Function(tab, key, index) | - |
 
 ## Tabs Attributes
 | Attributes | Description | Type | Default |
 | - | - | - | - |
 | label | tab label | String | - |
 | key | tab key | String | - |
+| class | tab class | String | - |
 | closable | tab closable | Boolean | true |
 | favico | tab favico. Custom favico renderer. It uses Vue's render function. It accepts two arguments: the first is h, the second is an object. including tab and index | Function, required image | - |
 
