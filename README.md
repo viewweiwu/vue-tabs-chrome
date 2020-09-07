@@ -56,6 +56,7 @@ export default {
 | insert-to-after | Insert to tag's after | Boolean | false |
 | is-mousedown-active | set tab is active when mousedown | Boolean | true |
 | renderLabel | render label | Function(tab, index) | - |
+| autoHiddenCloseIconWidth | auto hidden close tab width. if tabWidth < 120, close icon can not show. If you don’t want this feature, you can set the value to 0. | Number | 120 |
 | onClose | when tab close btn click. if return false, it cannot be closed. | Function(tab, key, index) | - |
 
 ## Tabs Attributes

@@ -20,7 +20,7 @@
             path(d="M 0 7 A 7 7 0 0 0 7 0 L 7 7 Z")
           svg.tabs-background-after(width="7" height="7")
             path(d="M 0 0 A 7 7 0 0 0 7 7 L 0 7 Z")
-        .tabs-close(@click.stop="handleDelete(tab, i)")
+        .tabs-close(@click.stop="handleDelete(tab, i)" v-show="canShowTabClose(tab)")
           slot(v-if="$slots['close-icon']" name="close-icon")
           svg.tabs-close-icon(v-else width="16" height="16" stroke="#595959")
             path(d="M 4 4 L 12 12 M 12 4 L 4 12")
@@ -32,7 +32,7 @@
               :params="{ tab, index: i }"
             )
             img(v-else-if="tab.favico" :src="tab.favico")
-          span.tabs-label {{ tab | tabLabelText(tabLabel, renderLabel) }}
+          span.tabs-label(:class="{ 'no-close': !canShowTabClose(tab) }") {{ tab | tabLabelText(tabLabel, renderLabel) }}
     .tabs-footer
 </template>
 
@@ -107,6 +107,10 @@ export default {
       type: Number,
       default: 40
     },
+    autoHiddenCloseIconWidth: {
+      type: Number,
+      default: 120
+    },
     maxWidth: {
       type: Number,
       default: 245
@@ -161,6 +165,21 @@ export default {
     window.removeEventListener('resize', this.handleResize)
   },
   methods: {
+    canShowTabClose (tab) {
+      if (tab.closable === false) {
+        return false
+      }
+
+      if (tab.key === this.value) {
+        return true
+      }
+
+      if (this.autoHiddenCloseIconWidth > this.tabWidth) {
+        return false
+      }
+
+      return true
+    },
     calcTabWidth () {
       let { tabs, maxWidth, minWidth, gap } = this
       let $content = this.$refs.content
@@ -477,6 +496,9 @@ export default {
     box-sizing: border-box;
     overflow: hidden;
     white-space: nowrap;
+    &.no-close {
+      margin-right: @gap;
+    }
   }
 
   /* background */
