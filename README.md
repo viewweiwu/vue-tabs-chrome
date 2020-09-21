@@ -95,7 +95,7 @@ export default {
 ## Slots
 | Attributes | Description |
 | - | - |
-| after | Tab after slots |
+| after | Tab after slot |
 
 ## License
 MIT

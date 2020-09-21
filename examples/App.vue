@@ -21,6 +21,9 @@
     </p>
     <example-dark />
     <h2>after slots</h2>
+    <p>
+      <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-after.vue" target="_blank">code</a>
+    </p>
     <example-after />
     <h2>Theme Custom</h2>
     <p>
@@ -44,6 +47,9 @@
     </p>
     <example-save />
     <h2>Events</h2>
+    <p>
+      <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-events.vue" target="_blank">code</a>
+    </p>
     <example-events />
   </div>
 </template>
