@@ -1,3 +1,7 @@
+## 2020/9/21
+feat: add after slots
+feat: add drag events
+
 ## 2020/9/7
 fix: closable not work
 feat: auto hidden close tab width

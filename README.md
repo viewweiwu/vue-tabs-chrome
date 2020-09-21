@@ -88,6 +88,14 @@ export default {
 | swap | Swap tab | (tab, targetTab) |
 | remove | Remove tab | (tab, index) |
 | contextmenu | Contextmenu event | (event, tab, index) |
+| dragstart | Tab dragstart event | (event, tab, index) |
+| dragging | Tab dragstart event | (event, tab, index) |
+| dragend | Tab dragend event | (event, tab) |
+
+## Slots
+| Attributes | Description |
+| - | - |
+| after | Tab after slots |
 
 ## License
 MIT

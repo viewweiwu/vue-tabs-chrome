@@ -20,6 +20,8 @@
       <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-dark.vue" target="_blank">code</a>
     </p>
     <example-dark />
+    <h2>after slots</h2>
+    <example-after />
     <h2>Theme Custom</h2>
     <p>
       <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-custom.vue" target="_blank">code</a>
@@ -41,6 +43,8 @@
       <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-save.vue" target="_blank">code</a>
     </p>
     <example-save />
+    <h2>Events</h2>
+    <example-events />
   </div>
 </template>
 
@@ -48,12 +52,14 @@
 import Example from './example/example'
 import ExampleDark from './example/example-dark'
 import ExampleCustom from './example/example-custom'
+import ExampleAfter from './example/example-after'
 import ExampleInsert from './example/example-insert'
 import ExampleSave from './example/example-save'
 import ExampleCustomClose from './example/example-custom-close'
+import ExampleEvents from './example/example-events'
 export default {
   name: 'app',
-  components: { Example, ExampleDark, ExampleCustom, ExampleInsert, ExampleSave, ExampleCustomClose }
+  components: { Example, ExampleDark, ExampleCustom, ExampleAfter, ExampleInsert, ExampleSave, ExampleCustomClose, ExampleEvents }
 }
 </script>
 

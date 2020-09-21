@@ -33,6 +33,11 @@
             )
             img(v-else-if="tab.favico" :src="tab.favico")
           span.tabs-label(:class="{ 'no-close': !canShowTabClose(tab) }") {{ tab | tabLabelText(tabLabel, renderLabel) }}
+      span.tabs-after(
+        ref="after"
+        :style="{ left: (tabWidth - gap * 2) * tabs.length + gap * 2 + 'px' }"
+      )
+        slot(name="after")
     .tabs-footer
 </template>
 
@@ -183,8 +188,10 @@ export default {
     calcTabWidth () {
       let { tabs, maxWidth, minWidth, gap } = this
       let $content = this.$refs.content
+      let after = this.$refs.after
+      let afterWidth = after.getBoundingClientRect().width
       if (!$content) return Math.max(maxWidth, minWidth)
-      let contentWidth = $content.clientWidth - gap * 2
+      let contentWidth = $content.clientWidth - gap * 3 - afterWidth
       let width = contentWidth / tabs.length
       width += gap * 2
       if (width > maxWidth) width = maxWidth
@@ -290,6 +297,7 @@ export default {
     handlePointerDown (e, tab, i) {
       let { tabKey, isMousedownActive } = this
       isMousedownActive && this.$emit('input', getKey(tab, tabKey))
+      this.$emit('dragstart', e, tab, i)
     },
     handleDragMove (e, moveVector, tab, i) {
       let { tabWidth, tabs, tabKey, gap } = this
@@ -297,6 +305,7 @@ export default {
       if (instance) {
         this.swapTab(tab, targetTab)
       }
+      this.$emit('dragging', e, targetTab, i)
     },
     handleDragEnd (e, tab) {
       let _instance = tab._instance
@@ -306,6 +315,7 @@ export default {
         _instance.setPosition(tab._x, 0)
       }, 50)
       setTimeout(() => {
+        this.$emit('dragend', e, tab)
         _instance.element.classList.remove('move')
       }, 200)
     },
@@ -533,6 +543,14 @@ export default {
   .tabs-footer {
     height: 4px;
     background-color: #fff;
+  }
+
+  .tabs-after{
+    top: 50%;
+    display: flex;
+    position: absolute;
+    overflow: hidden;
+    transform: translateY(-50%);
   }
 
   @keyframes tab-show {
