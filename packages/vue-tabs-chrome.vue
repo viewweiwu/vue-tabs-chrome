@@ -175,7 +175,7 @@ export default {
         return false
       }
 
-      if (tab.key === this.value) {
+      if (tab[this.tabKey] === this.value) {
         return true
       }
 
@@ -265,7 +265,7 @@ export default {
       })
     },
     handleDelete (tab, i) {
-      if (typeof this.onClose === 'function' && !this.onClose(tab, tab.key, i)) {
+      if (typeof this.onClose === 'function' && !this.onClose(tab, tab[this.tabKey], i)) {
         return false
       }
       let { tabKey, tabs, value } = this
