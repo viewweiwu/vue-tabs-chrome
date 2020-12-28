@@ -1,4 +1,7 @@
 ## 2020/9/21
+fix: tab[key] => tab[this.tabKey]
+
+## 2020/9/21
 feat: add after slots
 feat: add drag events
 
