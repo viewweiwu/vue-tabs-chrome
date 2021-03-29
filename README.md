@@ -16,6 +16,10 @@ npm install --save vue-tabs-chrome
   <vue-tabs-chrome v-model="tab" :tabs="tabs" />
 </template>
 <script>
+import Vue from 'vue'
+import VueTabsChrome from 'vue-tabs-chrome'
+Vue.use(VueTabsChrome)
+
 export default {
   data () {
     return {
