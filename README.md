@@ -1,13 +1,16 @@
 # vue-tabs-chrome
-A Vue component for Chrome-like tabs.<br>
+A Vue2 component for Chrome-like tabs.<br>
 Drag-and-drop support provided by Draggabilly by @desandro.
+
+If you are using Vue3, please see here.
+https://github.com/viewweiwu/vue3-tabs-chrome
 
 ## Live Demo
 [https://viewweiwu.github.io/vue-tabs-chrome/](https://viewweiwu.github.io/vue-tabs-chrome/)
 
 ## Install
 ```
-npm install --save vue-tabs-chrome
+npm i vue-tabs-chrome -S
 ```
 
 ## Usage
