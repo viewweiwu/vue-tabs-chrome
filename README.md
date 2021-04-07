@@ -41,7 +41,7 @@ export default {
         },
         {
           label: 'New Tab',
-          key: 'costom key',
+          key: 'any-string-key',
           favico: (h, { tab, index }) => {
             return h('span', tab.label)
           }
