@@ -12,21 +12,27 @@
 export default {
   data () {
     return {
-      tab: 'google',
+      tab: 'normal',
       tabs: [
         {
-          label: 'google',
-          key: 'google',
-          favicon: require('../assets/google.jpg')
+          label: 'Normal tab',
+          key: 'normal'
         },
         {
-          label: 'facebook',
-          key: 'facebook',
-          favicon: require('../assets/fb.jpg')
+          label: 'You cant swap me',
+          key: 'swappable',
+          swappable: false
         },
         {
-          label: 'New Tab',
-          key: 'any-string-key'
+          label: 'You cant drag me',
+          key: 'dragable',
+          dragable: false
+        },
+        {
+          label: 'Both',
+          key: 'any-string-key',
+          dragable: false,
+          swappable: false
         }
       ]
     }

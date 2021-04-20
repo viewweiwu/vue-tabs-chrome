@@ -10,62 +10,86 @@
         </button>
       </a>
     </p>
-    <h2>Default</h2>
+    <h2>
+      <a href="#chrome" name="chrome">Chrome UI</a>
+    </h2>
+    <p>
+      <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-chrome.vue" target="_blank">code</a>
+    </p>
+    <example-chrome />
+    <h2>
+      <a href="#default" name="default">Default</a>
+    </h2>
     <p>
       <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example.vue" target="_blank">code</a>
     </p>
     <example />
-    <h2>Theme Dark</h2>
+    <h2>
+      <a href="#dark" name="dark">Theme Dark</a>
+    </h2>
     <p>
       <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-dark.vue" target="_blank">code</a>
     </p>
     <example-dark />
-    <h2>after slots</h2>
+    <h2>
+      <a href="#after" name="after">after slots</a>
+    </h2>
     <p>
       <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-after.vue" target="_blank">code</a>
     </p>
     <example-after />
-    <h2>Theme Custom</h2>
+    <h2>
+      <a href="#custom" name="custom">Theme Custom</a>
+    </h2>
     <p>
       <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-custom.vue" target="_blank">code</a>
     </p>
     <example-custom />
-    <h2>Event Listener</h2>
+    <h2>
+      <a href="#listener" name="listener">Event Listener</a>
+    </h2>
     <p>
       <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-custom-close.vue" target="_blank">code</a>
     </p>
     <p>google tab has custom close icon, and cant close.</p>
     <example-custom-close></example-custom-close>
-    <h2>Insert to tag's after</h2>
+    <h2>
+      <a href="#insert" name="insert">Insert to tag's after</a>
+    </h2>
     <p>
       <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-insert.vue" target="_blank">code</a>
     </p>
     <example-insert />
-    <h2>Save to Localstorage</h2>
-    <p>
-      <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-save.vue" target="_blank">code</a>
-    </p>
-    <example-save />
-    <h2>Events</h2>
+    <h2>
+      <a href="#events" name="events">Events</a>
+    </h2>
     <p>
       <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-events.vue" target="_blank">code</a>
     </p>
     <example-events />
+    <h2>
+      <a href="#swap" name="swap"> Swap & Drag</a>
+    </h2>
+    <p>
+      <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-swap.vue" target="_blank">code</a>
+    </p>
+    <example-swap />
   </div>
 </template>
 
 <script>
 import Example from './example/example'
+import ExampleChrome from './example/example-chrome'
 import ExampleDark from './example/example-dark'
 import ExampleCustom from './example/example-custom'
 import ExampleAfter from './example/example-after'
 import ExampleInsert from './example/example-insert'
-import ExampleSave from './example/example-save'
 import ExampleCustomClose from './example/example-custom-close'
 import ExampleEvents from './example/example-events'
+import ExampleSwap from './example/example-swap'
 export default {
   name: 'app',
-  components: { Example, ExampleDark, ExampleCustom, ExampleAfter, ExampleInsert, ExampleSave, ExampleCustomClose, ExampleEvents }
+  components: { Example, ExampleChrome, ExampleDark, ExampleCustom, ExampleAfter, ExampleInsert, ExampleCustomClose, ExampleEvents, ExampleSwap }
 }
 </script>
 
@@ -79,14 +103,26 @@ html {
 
 body {
   margin: 0;
-  background-color: #fafafa;
+  background-color: #fff;
+  color: #2c3e50;
+  background-image: url(./assets/bg.png);
+}
+
+h1 {
+  color: #000;
 }
 
 h1,
 h2,
 h3 {
-  font-weight: 400;
-  color: rgba(0, 0, 0, 0.54);
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #666;
+  text-shadow: 1px 1px 1px #fff;
+
+  a {
+    color: inherit;
+  }
 }
 
 h1 {

@@ -25,13 +25,13 @@
           svg.tabs-close-icon(v-else width="16" height="16" stroke="#595959")
             path(d="M 4 4 L 12 12 M 12 4 L 4 12")
         .tabs-main(:title="tab | tabLabelText(tabLabel, renderLabel)")
-          span.tabs-favicon(v-if="tab.favico")
+          span.tabs-favicon(v-if="tab.favicon")
             render-temp(
-              v-if="typeof tab.favico === 'function'"
-              :render="tab.favico"
+              v-if="typeof tab.favicon === 'function'"
+              :render="tab.favicon"
               :params="{ tab, index: i }"
             )
-            img(v-else-if="tab.favico" :src="tab.favico")
+            img(v-else-if="tab.favicon" height="32" width="32" :src="tab.favicon")
           span.tabs-label(:class="{ 'no-close': !canShowTabClose(tab) }") {{ tab | tabLabelText(tabLabel, renderLabel) }}
       span.tabs-after(
         ref="after"
@@ -214,13 +214,16 @@ export default {
       let $item = this.$refs.item
       let $el = $item.find(el => el.classList.contains(`tab-${getKey(tab, tabKey)}`))
       tab._instance = new Draggabilly($el, { axis: 'x', containment: $content, handle: '.tabs-main' })
+      if (tab.dragable === false) {
+        tab._instance.disable()
+      }
       let x = (tabWidth - gap * 2) * i
       tab._x = x
       tab._instance.setPosition(x, 0)
-      tab._instance.on('pointerDown', (e, pointer) => this.handlePointerDown(e, tab, i))
-      tab._instance.on('dragMove', (e, pointer, moveVector) => this.handleDragMove(e, moveVector, tab, i))
-      tab._instance.on('dragEnd', (e, pointer) => this.handleDragEnd(e, tab, i))
-      tab._instance.on('staticClick', (e, pointer) => this.handleClick(e, tab, i))
+      tab._instance.on('pointerDown', (e) => this.handlePointerDown(e, tab, i))
+      tab._instance.on('dragMove', (e) => this.handleDragMove(e, tab, i))
+      tab._instance.on('dragEnd', (e) => this.handleDragEnd(e, tab, i))
+      tab._instance.on('staticClick', (e) => this.handleClick(e, tab, i))
     },
     addTab (...tabs) {
       let { insertToAfter, value, tabKey } = this
@@ -235,10 +238,15 @@ export default {
         this.doLayout()
       })
     },
+    /**
+     * remove tab
+     * @param key, tab key or index
+     */
     removeTab (key) {
       let { tabKey, tabs } = this
       let index = -1
       let targetTab = null
+      // if key is number, that is Array index
       if (typeof tab === 'number') {
         index = key
         targetTab = this.tabs[index]
@@ -254,6 +262,9 @@ export default {
         this.handleDelete(targetTab, index)
       }
     },
+    /**
+     * refresh tabs
+     */
     doLayout () {
       this.calcTabWidth()
       let { tabWidth, tabs, gap } = this
@@ -264,7 +275,13 @@ export default {
         instance.setPosition(_x, 0)
       })
     },
+    /**
+     * delete Tab
+     * @params tab, should remove tab
+     * @params i, tab index
+     */
     handleDelete (tab, i) {
+      // close test. if onClose return false, blocking close.
       if (typeof this.onClose === 'function' && !this.onClose(tab, tab[this.tabKey], i)) {
         return false
       }
@@ -299,7 +316,7 @@ export default {
       isMousedownActive && this.$emit('input', getKey(tab, tabKey))
       this.$emit('dragstart', e, tab, i)
     },
-    handleDragMove (e, moveVector, tab, i) {
+    handleDragMove (e, tab, i) {
       let { tabWidth, tabs, tabKey, gap } = this
       let { instance, targetTab } = getInstanceAt(tabs, tab, tabWidth, tabKey, gap)
       if (instance) {
@@ -309,7 +326,7 @@ export default {
     },
     handleDragEnd (e, tab) {
       let _instance = tab._instance
-      if (_instance.position.x === 0) return
+      if (_instance.position.x < 0) return
       setTimeout(() => {
         _instance.element.classList.add('move')
         _instance.setPosition(tab._x, 0)
@@ -325,34 +342,45 @@ export default {
     handleMenu (e, tab, index) {
       this.$emit('contextmenu', e, tab, index)
     },
-    swapTab (tab, targetTab) {
+    /**
+     * swap tab
+     * @param tab, current tab
+     * @param swapTab, target tab
+     */
+    swapTab (tab, swapTab) {
       let { tabKey, tabs } = this
+      if (swapTab.swappable === false) {
+        return
+      }
       let index, targetIndex
       for (let i = 0; i < tabs.length; i++) {
+        // get current tab index
         if (getKey(tab, tabKey) === getKey(tabs[i], tabKey)) {
           index = i
         }
-        if (getKey(targetTab, tabKey) === getKey(tabs[i], tabKey)) {
+        // get swap tab index
+        if (getKey(swapTab, tabKey) === getKey(tabs[i], tabKey)) {
           targetIndex = i
         }
       }
+      // swap tabs array index
       if (index !== targetIndex) {
         [tabs[index], tabs[targetIndex]] = [tabs[targetIndex], tabs[index]]
       }
       // swap x
       let _x = tab._x
-      tab._x = targetTab._x
-      targetTab._x = _x
+      tab._x = swapTab._x
+      swapTab._x = _x
 
       // swap position
-      let _instance = targetTab._instance
+      let _instance = swapTab._instance
       setTimeout(() => {
         _instance.element.classList.add('move')
         _instance.setPosition(_x, _instance.position.y)
       }, 50)
       setTimeout(() => {
         _instance.element.classList.remove('move')
-        this.$emit('swap', tab, targetTab)
+        this.$emit('swap', tab, swapTab)
       }, 200)
 
       // refresh tabs
@@ -491,6 +519,7 @@ export default {
   }
   .tabs-favicon {
     height: 16px;
+    width: 16px;
     margin-left: @gap;
     display: flex;
     align-items: center;

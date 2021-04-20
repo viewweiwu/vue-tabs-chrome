@@ -10,7 +10,8 @@ if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue)
 }
 
-export default {
-  install,
-  VueTabsChrome
-}
+VueTabsChrome.install = install
+
+export { VueTabsChrome }
+
+export default VueTabsChrome

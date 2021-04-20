@@ -18,19 +18,12 @@ export default {
           label: 'google',
           key: 'google',
           class: 'go',
-          favico: require('../assets/google.jpg')
+          favicon: require('../assets/google.jpg')
         },
         {
           label: 'facebook',
           key: 'facebook',
-          favico: require('../assets/fb.jpg')
-        },
-        {
-          label: 'New Tab',
-          key: 'costomKey',
-          favico: (h, { tab, index }) => {
-            return h('span', tab.label)
-          }
+          favicon: require('../assets/fb.jpg')
         }
       ]
     }
@@ -76,8 +69,8 @@ export default {
       }
       &::after {
         content: '';
-        width: 80%;
-        height: 80%;
+        width: 10px;
+        height: 10px;
         border-radius: 50%;
         background-color: #f06;
         position: relative;

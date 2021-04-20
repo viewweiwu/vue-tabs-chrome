@@ -17,7 +17,7 @@ export default {
         {
           label: 'google',
           key: 'google',
-          favico: require('../assets/google.jpg'),
+          favicon: require('../assets/google.jpg'),
           meta: {
             key: 'hello1'
           }
@@ -25,15 +25,15 @@ export default {
         {
           label: 'facebook',
           key: 'facebook',
-          favico: require('../assets/fb.jpg'),
+          favicon: require('../assets/fb.jpg'),
           meta: {
             key: 'hello2'
           }
         },
         {
           label: 'New Tab',
-          key: 'costomKey',
-          favico: (h, { tab, index }) => {
+          key: 'any-string-key',
+          favicon: (h, { tab, index }) => {
             return h('span', { style: { color: 'red' } }, '*')
           },
           meta: {

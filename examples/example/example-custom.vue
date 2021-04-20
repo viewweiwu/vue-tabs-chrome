@@ -16,12 +16,12 @@ export default {
         {
           label: 'google',
           key: 'google',
-          favico: require('../assets/google.jpg')
+          favicon: require('../assets/google.jpg')
         },
         {
           label: 'facebook',
           key: 'facebook',
-          favico: require('../assets/fb.jpg')
+          favicon: require('../assets/fb.jpg')
         }
       ]
     }
