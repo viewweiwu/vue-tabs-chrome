@@ -8,6 +8,10 @@ https://github.com/viewweiwu/vue3-tabs-chrome
 ## Live Demo
 [https://viewweiwu.github.io/vue-tabs-chrome/](https://viewweiwu.github.io/vue-tabs-chrome/)
 
+### Code Sandbox Example
+
+[https://codesandbox.io/s/kind-wave-00ipv?file=/src/App.vue](https://codesandbox.io/s/kind-wave-00ipv?file=/src/App.vue)
+
 ## Install
 ```
 npm i vue-tabs-chrome -S
