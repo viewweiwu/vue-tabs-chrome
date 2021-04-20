@@ -21,9 +21,11 @@ npm i vue-tabs-chrome -S
 <script>
 import Vue from 'vue'
 import VueTabsChrome from 'vue-tabs-chrome'
-Vue.use(VueTabsChrome)
 
 export default {
+  components: {
+    VueTabsChrome
+  },
   data () {
     return {
       tab: 'google',
@@ -32,17 +34,17 @@ export default {
           label: 'google',
           key: 'google',
           closable: false,
-          favico: require('./assets/google.jpg')
+          favicon: require('./assets/google.jpg')
         },
         {
           label: 'facebook',
           key: 'facebook',
-          favico: require('./assets/fb.jpg')
+          favicon: require('./assets/fb.jpg')
         },
         {
           label: 'New Tab',
           key: 'any-string-key',
-          favico: (h, { tab, index }) => {
+          favicon: (h, { tab, index }) => {
             return h('span', tab.label)
           }
         }
@@ -73,7 +75,9 @@ export default {
 | key | tab key | String | - |
 | class | tab class | String | - |
 | closable | tab closable | Boolean | true |
-| favico | tab favico. Custom favico renderer. It uses Vue's render function. It accepts two arguments: the first is h, the second is an object. including tab and index | Function, required image | - |
+| dragable | tab tragable | Boolean | true |
+| swappable | tab swappable | Boolean | true |
+| favicon | tab favicon. Custom favicon renderer. It uses Vue's render function. It accepts two arguments: the first is h, the second is an object. including tab and index | Function, required image | - |
 
 ## Props Attributes
 | Attributes | Description | Type | Default |
@@ -103,6 +107,35 @@ export default {
 | Attributes | Description |
 | - | - |
 | after | Tab after slot |
+
+## Change log
+
+## v0.9.0
+
+1. feat: tab can set dragable.
+2. feat: tab can set swappable.
+3. feat: can be introduced with "Vue.components" instead of "Vue.use".
+4. feat: new example UI.
+5. feat: new 'Chrome UI' example.
+6. feat: new 'swap & drag' example.
+7. remove: remove 'Save to Localstorage' example.
+
+## 2020/9/21
+fix: tab[key] => tab[this.tabKey]
+
+## 2020/9/21
+feat: add after slots
+feat: add drag events
+
+## 2020/9/7
+fix: closable not work
+feat: auto hidden close tab width
+
+## 2020/8/19
+add new feature: tab close event listener & tab custom class
+
+## 2020/2/10
+add new feature: tab closable
 
 ## License
 MIT
