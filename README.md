@@ -114,6 +114,10 @@ export default {
 
 ## Change log
 
+## v0.9.1
+
+1. fix: 'dragable' needs to respond to the 'click' event.
+
 ## v0.9.0
 
 1. feat: tab can set dragable.
