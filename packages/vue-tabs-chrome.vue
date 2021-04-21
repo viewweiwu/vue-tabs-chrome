@@ -216,6 +216,8 @@ export default {
       tab._instance = new Draggabilly($el, { axis: 'x', containment: $content, handle: '.tabs-main' })
       if (tab.dragable === false) {
         tab._instance.disable()
+        $el.addEventListener('mousedown', (e) => this.handlePointerDown(e, tab, i))
+        $el.addEventListener('click', (e) => this.handleClick(e, tab, i))
       }
       let x = (tabWidth - gap * 2) * i
       tab._x = x
