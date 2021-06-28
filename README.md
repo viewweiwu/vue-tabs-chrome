@@ -14,6 +14,10 @@ https://github.com/viewweiwu/vue3-tabs-chrome
 
 [https://codesandbox.io/s/kind-wave-00ipv?file=/src/App.vue](https://codesandbox.io/s/kind-wave-00ipv?file=/src/App.vue)
 
+### CDN
+
+[https://codepen.io/viewweiwu/pen/GRmKaZZ](https://codepen.io/viewweiwu/pen/GRmKaZZ)
+
 ## Install
 
 ```
