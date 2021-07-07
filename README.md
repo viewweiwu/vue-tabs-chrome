@@ -124,6 +124,7 @@ npm i vue-tabs-chrome -S
 | Attributes | Description    |
 | ---------- | -------------- |
 | after      | Tab after slot |
+| close-icon | Close icon     |
 
 ## Change log
 
