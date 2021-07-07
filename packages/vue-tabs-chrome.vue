@@ -20,10 +20,10 @@
             path(d="M 0 7 A 7 7 0 0 0 7 0 L 7 7 Z")
           svg.tabs-background-after(width="7" height="7")
             path(d="M 0 0 A 7 7 0 0 0 7 7 L 0 7 Z")
-        .tabs-close(@click.stop="handleDelete(tab, i)" v-show="canShowTabClose(tab)")
-          slot(v-if="$slots['close-icon']" name="close-icon")
-          svg.tabs-close-icon(v-else width="16" height="16" stroke="#595959")
-            path(d="M 4 4 L 12 12 M 12 4 L 4 12")
+        .tabs-close(@click.stop="handleDelete(tab, i)" v-show="canShowTabClose(tab)" :style="{ width: tabCloseWidth + 'px' }")
+          slot(name="close-icon" :tab="tab" :index="i")
+            svg.tabs-close-icon(width="16" height="16" stroke="#595959")
+              path(d="M 4 4 L 12 12 M 12 4 L 4 12")
         .tabs-main(:title="tab | tabLabelText(tabLabel, renderLabel)")
           span.tabs-favicon(v-if="tab.favicon")
             render-temp(
@@ -141,6 +141,10 @@ export default {
     },
     onClose: {
       type: Function
+    },
+    tabCloseWidth: {
+      type: Number,
+      default: 16
     }
   },
   data () {
