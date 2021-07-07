@@ -1,6 +1,6 @@
 <template>
   <div class="content example-custom-close">
-    <vue-tabs-chrome ref="tab" v-model="tab" :tabs="tabs" @contextmenu="handleClick" :onClose="onClose" :tab-close-width="50">
+    <vue-tabs-chrome ref="tab" v-model="tab" :tabs="tabs" @contextmenu="handleClick" :onClose="onClose" :autoHiddenCloseIconWidth="170" :tabCloseWidth="50">
       <template #close-icon="{tab: tabSelected, index}">
         <div class="btn-container">
           <a class="btn-1" @click.stop="button1(tabSelected, index)"></a>
@@ -40,8 +40,7 @@ export default {
       let newTabs = [
         {
           label: 'New Tab',
-          key: item,
-          closable: false
+          key: item
         }
       ]
       this.$refs.tab.addTab(...newTabs)
@@ -76,35 +75,36 @@ export default {
 </script>
 
 <style lang="less">
-
-.btn-container {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-}
-
-.btn-1 {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background-color: gold;
-
-  &:hover {
-    background-color: black;
+.example-custom-close {
+  .btn-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
   }
-}
 
-.btn-2 {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background-color: silver;
+  .btn-1 {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: gold;
 
-  &:hover {
-    background-color: black;
+    &:hover {
+      background-color: black;
+    }
+  }
+
+  .btn-2 {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: silver;
+
+    &:hover {
+      background-color: black;
+    }
   }
 }
 </style>

@@ -21,7 +21,7 @@
           svg.tabs-background-after(width="7" height="7")
             path(d="M 0 0 A 7 7 0 0 0 7 7 L 0 7 Z")
         .tabs-close(@click.stop="handleDelete(tab, i)" v-show="canShowTabClose(tab)" :style="{ width: tabCloseWidth + 'px' }")
-          slot(name="close-icon" :tab="tab" :index="i")
+          slot(name="close-icon" :tab="getTab(tab)" :index="i")
             svg.tabs-close-icon(width="16" height="16" stroke="#595959")
               path(d="M 4 4 L 12 12 M 12 4 L 4 12")
         .tabs-main(:title="tab | tabLabelText(tabLabel, renderLabel)")
@@ -32,7 +32,10 @@
               :params="{ tab, index: i }"
             )
             img(v-else-if="tab.favicon" height="32" width="32" :src="tab.favicon")
-          span.tabs-label(:class="{ 'no-close': !canShowTabClose(tab) }") {{ tab | tabLabelText(tabLabel, renderLabel) }}
+          span.tabs-label(
+            :class="{ 'no-close': !canShowTabClose(tab) }"
+            :style="{ marginRight: canShowTabClose(tab) ? tabCloseWidth + 'px' : 0 }"
+          ) {{ tab | tabLabelText(tabLabel, renderLabel) }}
       span.tabs-after(
         ref="after"
         :style="{ left: (tabWidth - gap * 2) * tabs.length + gap * 2 + 'px' }"
@@ -174,7 +177,7 @@ export default {
     window.removeEventListener('resize', this.handleResize)
   },
   methods: {
-    canShowTabClose (tab) {
+    canShowTabClose (tab, tabCloseWidth) {
       if (tab.closable === false) {
         return false
       }
@@ -391,6 +394,14 @@ export default {
 
       // refresh tabs
       this.tabs.splice(0, 0)
+    },
+    getTab (tab) {
+      let newTab = {
+        ...tab
+      }
+      delete newTab._instance
+      delete newTab._x
+      return newTab
     },
     getTabs () {
       return this.tabs.map(tab => {
