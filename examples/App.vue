@@ -54,10 +54,10 @@
     <p>google tab has custom close icon, and cant close.</p>
     <example-custom-close></example-custom-close>
     <h2>
-      <a href="#custom-tab-buttons" name="listener">Custom tab icons</a>
+      <a href="#custom-tab-buttons" name="custom-tab-buttons">Custom tab icons</a>
     </h2>
     <p>
-      <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-custom-tab.buttons.vue" target="_blank">code</a>
+      <a href="https://github.com/viewweiwu/vue-tabs-chrome/blob/master/examples/example/example-custom-tab-buttons.vue" target="_blank">code</a>
     </p>
     <p>google tab has custom tab icons</p>
     <example-custom-tab-buttons></example-custom-tab-buttons>
