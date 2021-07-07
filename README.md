@@ -79,6 +79,7 @@ npm i vue-tabs-chrome -S
 | render-label                 | render label                                                                                                                         | Function(tab, index)      | -       |
 | auto-hidden-close-icon-width | auto hidden close tab width. if tabWidth < 120, close icon can not show. If you don’t want this feature, you can set the value to 0. | Number                    | 120     |
 | on-close                     | when tab close btn click. if return false, it cannot be closed.                                                                      | Function(tab, key, index) | -       |
+| tab-close-width              | tab close icon width.                                                                                                                | Number                    | 16      |
 
 ## Tabs Attributes
 
@@ -127,6 +128,10 @@ npm i vue-tabs-chrome -S
 | close-icon | Close icon     |
 
 ## Change log
+
+## 0.10.0
+
+1. feat: Add Custom Close Button.
 
 ## v0.9.2
 
