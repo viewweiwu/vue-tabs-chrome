@@ -12,7 +12,9 @@ https://github.com/viewweiwu/vue3-tabs-chrome
 
 ### Code Sandbox Example
 
-[https://codesandbox.io/s/kind-wave-00ipv?file=/src/App.vue](https://codesandbox.io/s/kind-wave-00ipv?file=/src/App.vue)
+example: https://codesandbox.io/s/kind-wave-00ipv?file=/src/App.vue
+
+use VueRouter: https://codesandbox.io/s/twilight-forest-mm55be?file=/src/App.vue
 
 ### CDN
 
